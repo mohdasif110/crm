@@ -1,0 +1,73 @@
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="page-header">
+            <h3 class="fts-17"> <i class="fa fa-comments tooltip-button demo-icon icon-edit" title=".icon-edit"></i>{{page_title}}</h3>
+        </div>
+    </div>
+</div>
+
+<!--Filter and action button panel-->
+<div class="action-block">
+	
+	<div class="col-md-9">
+<!--		Filter Block-->
+	</div>
+	
+	<div class="col-md-3"> 
+		<ul class="nav nav-pills">
+			<li role="presentation" class="active"><a ng-href="add_message_template" class="btn btn-xs">Add New Template</a></li>
+		</ul>
+	</div>
+</div>
+
+<!--email template listing--> 
+<div class="">
+	
+	<div class="col-md-12">
+		
+		<table class="table table-bordered email_templates_tbl">
+			
+			<thead>
+				<th>#</th>
+				<th>Category</th>
+				<th>Message Text</th>
+				<th>Event</th>
+				<th>Default Numbers</th>
+				<th>Action</th>
+			</thead>
+			
+			<tbody>
+				<tr ng-repeat="template in message_templates">
+					<td ng-bind="$index + 1"></td>
+					<td>{{template.message_category}}</td>
+					<td>{{template.message}}</td>
+					<td>{{template.event}}</td>
+					<td>
+						<p class="text-primary" ng-repeat="number in template.default_numbers">{{number}}</p>
+					</td>
+					<td>
+						<i class="fa fa-pencil" style="cursor:pointer;" ng-click="editMessageTemplate(template.template_id)" title="Edit Template" aria-hidden="true"></i>
+						<i  ng-if="template.is_delete == 0" class="fa fa-trash" title="Mark As Delete" ng-click="delete_template(template.template_id,template.is_delete)" style="color:#f00; cursor: pointer;" aria-hidden="true"></i>
+						<i  ng-if="template.is_delete == 1" class="fa fa-trash" title="Restore Template" ng-click="delete_template(template.template_id,template.is_delete)" style="color:green; cursor: pointer;" aria-hidden="true"></i>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<script type="text/javascript">
+	
+	(function ($){
+		
+		$('table').css({
+			opacity : 0
+		  }).animate({
+			opacity : 1
+		  }, 1000, function() {
+			console.log('Animation done');
+		});
+		
+	}(jQuery));
+	
+</script>

@@ -1,0 +1,32 @@
+<div class="container-fluid">
+	<div class="page-header">
+		<h4>Lead History 
+		</h4>
+	</div>
+
+	
+	
+	<!--History Block--> 
+	<div class="row notes-container" ng-repeat="history in history_data" ng-if="history_data.length">
+		<div class="col-sm-12">
+			<div class="media">
+				<div class="media-left">
+					<a href="#">
+						<i class="fa fa-history fa-2x" aria-hidden="true"></i>
+					</a>
+				</div>
+				<div class="media-body">
+					<h4 class="media-heading italic-date">{{history.created_at | date : 'mediumDate'}}</h4>
+					{{history.details}}
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="row" ng-if="history_data.length <= 0">
+		<div class="col-sm-12">
+			No history 
+		</div>
+	</div>
+	
+</div>

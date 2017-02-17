@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+    <head>
+        <base href="http://52.77.73.171/CRM/" />
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="cache-control" content="max-age=0" />
+        <meta http-equiv="cache-control" content="no-cache" />
+        <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+        <meta http-equiv="pragma" content="no-cache" />
+
+        <title>BMH CRM</title>
+        <link href="styles/bootstrap.css" rel="stylesheet" type="text/css"/>
+        <link href="fonts/font-awesome-4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+		<link rel="stylesheet" href="fonts/font-awesome-animation.min.css">
+        <link href="styles/styles.css" rel="stylesheet" type="text/css"/>
+        <link href="styles/notification.css" rel="stylesheet" type="text/css"/>
+        <link href="styles/custom_checkbox.css" rel="stylesheet" type="text/css"/>
+        <link href="styles/bootstrap-theme.css" rel="stylesheet" type="text/css"/>
+        <link href="styles/pace-themes/themes/red/pace-theme-loading-bar.css" rel="stylesheet" type="text/css"/>
+        <link href="styles/pikaday.css" rel="stylesheet" type="text/css"/>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/jquery.webui-popover/1.2.1/jquery.webui-popover.min.css">
+        <link href="styles/theme.css" rel="stylesheet" type="text/css"/>
+		
+		<link rel="styleshet" type="text/css" href="styles/angular-ui-switch.css"/>
+		<!--jQuery multiselect plugin css-->
+		<link rel="stylesheet" href="styles/bootstrap-multiselect.css" type="text/css"/>
+		
+		<link rel="stylesheet" href="styles/multi-select.css"/>
+		
+		<!--jQuery Datetime Picker plugin-->
+		<link rel="stylesheet" href="styles/jquery.datetimepicker.min.css" />
+		
+		<!--summernote css-->
+		<link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.css" rel="stylesheet">
+		
+		<!--App constant--> 
+		<script type="text/javascript" src="scripts/constant.js" ></script>
+		<script src="scripts/pikaday.js" type="text/javascript"></script>
+    </head>
+    <body ng-controller="mainAppCtrl">
+        <!--Main Navigation Block-->
+
+        <div ng-clock class="col-md-3 left_col" style="background-color: #3bb4c8;height:55px;border-bottom: 1px solid #000;">
+            <!--Left Side Navigation block-->
+            <div ng-include="left_nav_template_url" ng-if="load_left_nav"></div>
+        </div>
+
+        <div class="container-fluid" ng-clock id="menu-header" ng-include="header_template_url" ng-if="loadHeader"></div>
+
+        <!--Main content container block-->
+        <div id="content-layout" style="padding: 0px;">
+            <div class="container-fluid" ng-view="">
+                <!--Content goes here-->
+            </div>
+        </div>
+
+        <div class="notification-block"></div>
+		
+        <script type="text/javascript">
+					paceOptions = {
+						// Disable the 'elements' source
+						document: true,
+						ghostTime: 1000,
+						//maxProgressPerFrame: 20, 
+						// Only show the progress on regular and ajax-y page navigation,
+						// not for every request
+						restartOnRequestAfter: true,
+						startOnPageLoad: true,
+						restartOnPushState: true, // for AJAX navigation 
+						target: 'body', // Pace element to be appended on 
+						elements: {selectors: ['body', '#content-layout', '.container-fluid']},
+						ajax: {
+							trackMethods: ['GET', 'POST', 'DELETE', 'PUT'], 
+							ignoreURLs: ['login', 'syn_crm_enquiry.php', 'manula_push_ivr.php', 'helper.php','getCurrentUser.php','fetchCRMProjects.php']}
+
+					};
+
+
+        </script>
+	<script src="scripts/jquery_3.1.0.js" type="text/javascript"></script>
+	<script src="scripts/bootstrap-treeview.min.js" type="text/javascript"></script>
+	<script src="scripts/webui_popover_1.2.0.js"></script>
+	<script src="scripts/pace.min.js" type="text/javascript"></script>
+	<script src="scripts/moment.js" type="text/javascript"></script>
+	
+	<script src="scripts/bootstrap.js" type="text/javascript"></script>
+	
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.js"></script>
+	
+	
+	<!--jQuery multiselect plugin js--> 
+	<script type="text/javascript" src="scripts/bootstrap-multiselect.js"></script>
+	<script type="text/javascript" src="scripts/jquery.multi-select.js"> </script>
+	<!--jQuery DateTime Picker plugin-->
+	<script src="scripts/jquery.datetimepicker.full.min.js"></script>
+	<script src="scripts/angular.js" type="text/javascript"></script>
+	<script src="scripts/angular-sanitize.min.js" type="text/javascript"></script>
+	<script src="scripts/angular-route.js" type="text/javascript"></script>
+	<script src="scripts/angular.ui.router.js" type="text/javascript"></script>
+	<script src="scripts/angular-animate.min.js" type="text/javascript"></script>
+	<script src="scripts/ui-bootstrap-2.1.4.min.js" type="text/javascript"></script>
+	<script src="scripts/ui-bootstrap-tpls-2.1.4.min.js" type="text/javascript"></script>
+	<script src="scripts/angular-ui-switch.js" type="text/javascript"></script>
+	<script src="app/modules/script.js" type="text/javascript"></script>
+	<script src="app/controllers/loginCtrl.js" type="text/javascript"></script>
+	<script src="app/controllers/leftNavCtrl.js" type="text/javascript"></script>
+	<script src="app/controllers/homeCtrl.js" type="text/javascript"></script>
+	<script src="app/controllers/designationCtrl.js" type="text/javascript"></script>
+	<script src="app/controllers/addEmployeeCtrl.js" type="text/javascript"></script>
+	<script src="app/controllers/employeeSearchCtrl.js" type="text/javascript"></script>
+	<script src="app/controllers/editEmployeeCtrl.js" type="text/javascript"></script>
+	<script src="app/controllers/managePriviledgeCtrl.js" type="text/javascript"></script>
+	<script src="app/controllers/moduleManagerCtrl.js" type="text/javascript"></script>
+	<script src="app/controllers/createModule.js" type="text/javascript"></script>
+	<script src="app/controllers/updateModule.js" type="text/javascript"></script>
+	<script src="app/controllers/dispositionGroupCtrl.js" type="text/javascript"></script>
+	<script src="app/controllers/dispositionGroupStatusCtrl.js" type="text/javascript"></script>
+	<script src="app/controllers/primaryCampaignCtrl.js" type="text/javascript"></script>
+	<script src="app/controllers/secondaryCampaignCtrl.js" type="text/javascript"></script>
+	<script src="app/controllers/addLeadCtrl.js" type="text/javascript"></script>
+	<script src="app/controllers/leadEnquiryCtrl.js" type="text/javascript"></script>
+	<script src="app/controllers/allLeadCtrl.js" type="text/javascript"></script>
+	<script src="app/controllers/assignedLeadsCtrl.js" type="text/javascript"></script>
+	<script src="app/controllers/dispositionGroupAssignmentCtrl.js" type="text/javascript"></script>
+	<script src="app/controllers/editLeadCtrl.js" type="text/javascript"></script>
+	<script src="app/controllers/myLeadsCtrl.js" type="text/javascript"></script>  
+	<script src="app/controllers/manageEmpDispositionGroupCtrl.js" type="text/javascript"></script> 
+	<script src="app/controllers/viewLeadCtrl.js" type="text/javascript"></script>
+	<script src="app/controllers/notesCtrl.js" type="text/javascript"></script>
+	<script src="app/controllers/messageTemplatesCtrl.js" type="text/javascript"></script>
+	<script src="app/controllers/addMessageTemplateCtrl.js" type="text/javascript"></script>	
+	<script src="app/controllers/capacities_asm.js" type="text/javascript"></script>
+	<script src="app/controllers/salesPersonCapacityCtrl.js" type="text/javascript"></script>
+	<script src="app/controllers/addSalesPersonCapacityCtrl.js" type="text/javascript"></script>
+	<!--Email template Ctrl-->
+	<script src="app/controllers/emailTemplateCtrl.js" type="text/javascript"></script>
+	<!--Add new email template ctrl--> 
+	<script src="app/controllers/addEmailTemplateCtrl.js" type="text/javascript"></script>
+	<!--capacity manager controllers-->
+	<script src="app/controllers/capacityManagerAsmCtrl.js" type="text/javascript"></script>
+	<script src="app/controllers/previousCapacitiesCtrl.js" type="text/javascript"></script>
+	<script src="app/controllers/changePasswordCtrl.js" type="text/javascript"></script>
+	<!--Lead Closure Ctrl-->
+	<script src="app/controllers/leadClosureCtrl.js" type="text/javascript"></script>
+	<script src="app/directives/contactForm.js" type="text/javascript"></script>
+	<script src="app/directives/loading.js" type="text/javascript"></script>	
+	<!--Custom directive for ul li-->
+	<script src="app/directives/activeNav.js" type="text/javascript"></script>
+	<script src="app/directives/searchProject.js" type="text/javascript"></script>
+	<script src="app/services/paceLoading.js" type="text/javascript"></script>
+	<script src="app/services/employeeService.js" type="text/javascript"></script>
+	<script src="app/services/designationService.js" type="text/javascript"></script>
+	<script src="app/services/notificationService.js" type="text/javascript"></script>
+	<script src="app/services/modalService.js" type="text/javascript"></script>
+	<script src="app/factoryServices/utilityService.js" type="text/javascript"></script>
+	<script src="app/factoryServices/httpService.js" type="text/javascript"></script>
+	<script src="app/factoryServices/projectFilterService.js" type="text/javascript"></script>
+	<script src="app/factoryServices/dateUtility.js" type="text/javascript"></script>
+	<script src="app/filters/customFilters.js" type="text/javascript"></script>
+	<script src="app/directives/sendMail.js" type="text/javascript"></script>
+	<script src="app/services/chequeCollectionService.js" type="text/javascript"></script>
+	<script type="text/javascript" src="app/services/validationService.js"></script>
+	<script type="text/javascript" src="app/directives/userSetting.js"></script>
+	<script type="text/javascript" src="app/directives/modals.js"></script>
+	<script type="text/javascript" src="app/directives/notificationMessage.js"></script>
+	<script type="text/javascript" src="app/directives/enquiry_projects.js"></script>
+	<script src="scripts/header_script.js" type="text/javascript"></script>
+	<script src="scripts/script.js" type="text/javascript"></script>
+	<script type="text/javascript" src="app/directives/quickSettings.js"></script>
+	<script type="text/javascript" src="app/directives/fileModel.js"></script>
+	<script type="text/javascript" src="app/services/leadsService.js"></script>
+	<!--Bootstrap Modal directive-->    
+	<my-modals></my-modals>
+	<!--End Bootstrap Modal directive-->
+	
+	<script type="text/javascript">
+		
+		// Animation on tables for whole application
+		(function ($){
+			
+			$(document).ready(function (){
+				
+				$('table').css({
+					opacity : 0
+				}).animate({
+					opacity : 1
+				}, 1000, function() {
+					
+				});
+				
+			});
+			
+		}(jQuery));
+		
+	</script>
+</body>
+</html>

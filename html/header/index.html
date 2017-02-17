@@ -1,0 +1,37 @@
+<div class="navbar-items" >
+	<div>
+		<span class="glyphicon glyphicon-list pull-left left-nav-expander" data-slide="down"></span>
+	</div>
+	<div class="pull-right">
+		<div class="col-md-4 dp-32 settings_circle"></div>
+			<div class="ac_info">
+				<div class="account_container">
+					<div class="user_account_data">
+						<div class="row">
+							<div class="col-md-6">
+								<div class="media">
+									<div class="media-left media-middle">
+									<a href="#">
+										<img style="width:125px; height: 125px;" class="media-object" ng-src="{{currentUser.profile_image}}" alt="profile_image_64">
+									</a>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<span class="text-primary" style="font-size: 15px; font-weight: bold;">{{currentUser.firstname}} {{currentUser.lastname}}</span>
+								<p class="text-muted" style="font-size:13px;">
+									{{currentUser.email}}
+									<br/>
+									Logged in from: {{currentUser.login_ip_address}}
+								</p>
+							</div>
+						</div>
+					</div>
+					<div class="row sa">
+						<div class="col-md-6" ng-click="user_setting()">Settings</div>
+						<div class="col-md-6" ng-click="logout ()">Logout</div>
+					</div>
+				</div>
+			</div>
+	</div>
+</div>

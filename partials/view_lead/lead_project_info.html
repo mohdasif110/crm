@@ -1,0 +1,33 @@
+<div class="container-fluid">
+	<div class="page-header">
+		<h4>Project Details 
+			<search-project class="pull-right" enquiry_id="{{enquiry_id}}" lead_number="{{lead_number}}"></search-project>
+		</h4>
+	</div>
+	
+	<!--Projects Table--> 
+	
+	<div class="row">
+		<div class="col-md-12">
+			<table class="table table-striped">
+				<tr>
+					<th>#</td>
+					<th>Project Name</th>
+					<th>Project City</th>
+					<th>Project URL</th>
+					<th>Action</th>
+				</tr>
+				<tr ng-repeat="project in projects">
+					<td ng-bind="$index + 1"></td>
+					<td>{{project.project_name}}</td>
+					<td>{{project.project_city}}</td>
+					<td>{{project.project_url}}</td>
+					<td><button class="btn btn-xs btn-danger" ng-click="remove_project(project.project_id)">Remove</button></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	
+	<!--End : Projects Table--> 
+</div>
+

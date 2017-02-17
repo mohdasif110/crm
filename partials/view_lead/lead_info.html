@@ -1,0 +1,152 @@
+<div class="container-fluid">
+	<div class="page-header">
+		<h4>Lead Details</h4>
+	</div>
+	<form>
+		<div class="row row-border-bottom">
+			<div class="col-md-6">
+				<div class="inner-col">
+					Enquiry Id
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="inner-col">
+					{{enquiry_id}}
+				</div>
+			</div>
+		</div>
+		
+		<div class="row row-border-bottom">
+			<div class="col-md-6">
+				<div class="inner-col">
+					Lead Number
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="inner-col">
+					{{lead_id}}
+				</div>
+			</div>
+		</div>
+		
+		<div class="row row-border-bottom">
+			<div class="col-md-6">
+				<div class="inner-col">
+					Current Status
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="inner-col">
+					{{lead_detail.primary_disposition_status_text | uppercase}}
+				</div>
+			</div>
+		</div>
+		
+		
+		<div class="row row-border-bottom">
+			<div class="col-md-6">
+				<div class="inner-col">
+					Lead Owner
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="inner-col">
+					{{lead_detail.lead_owner}}
+				</div>
+			</div>
+		</div>
+		
+		<div class="row row-border-bottom">
+			<div class="col-md-6">
+				<div class="inner-col">
+					Assigned To Area Sales Manager
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="inner-col">
+					{{lead_detail.lead_assigned_to_asm}}
+				</div>
+			</div>
+		</div>
+		
+		<div class="row row-border-bottom">
+			<div class="col-md-6">
+				<div class="inner-col">
+					Assigned To Sales Person
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="inner-col">
+					{{lead_detail.lead_assigned_to_sp}}
+				</div>
+			</div>
+		</div>
+		
+		<div class="row row-border-bottom">
+			<div class="col-md-6">
+				<div class="inner-col">
+					Lead Primary Source
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="inner-col">
+					{{lead_detail.primary_campaign_source_text}}
+				</div>
+			</div>
+		</div>
+		
+		<div class="row row-border-bottom">
+			<div class="col-md-6">
+				<div class="inner-col">
+					Lead Secondary Source
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="inner-col">
+					{{lead_detail.leadSecondarySource}}
+				</div>
+			</div>
+		</div>
+		
+		<div class="row row-border-bottom">
+			<div class="col-md-6">
+				<div class="inner-col">
+					Next Followup Date
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="inner-col">
+<!--					{{ (lead_detail.future_followup_date) && lead_detail.future_followup_date | date: 'fullDate' || 'NA'}}-->
+						NA
+				</div>
+			</div>
+		</div>
+		
+		<div class="row row-border-bottom">
+			<div class="col-md-6">
+				<div class="inner-col">
+					Last Followup Date
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="inner-col">
+					NA
+					<!--{{ (lead_detail.last_followup_date != 'null') && lead_detail.last_followup_date | date: 'fullDate' || 'NA' }}-->
+				</div>
+			</div>
+		</div>
+		
+		<div class="row row-border-bottom">
+			<div class="col-md-6">
+				<div class="inner-col">
+					Remark
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="inner-col">
+					{{lead_detail.enquiry_status_remark}}
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
