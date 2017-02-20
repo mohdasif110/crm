@@ -4,7 +4,21 @@
 	
 	$data 				=	file_get_contents('php://input');
 	$josnDecode 		=	json_decode($data,true); 
+
+		
+	$designation_slug	=		$josnDecode['designation_slug'];
+	$userID				=		$josnDecode['userID'];
 	
+	
+	/*
+		Array
+		(
+			[date_range] => 30/01/2017 - 01/02/2017
+			[userID] => 1
+			[designation_slug] => admin
+		)
+	*/
+
 	$todayDate 			=	date('Y');
 	
 	$dateValue 			=	'';
@@ -14,16 +28,16 @@
 	
 	if(isset($josnDecode['date_range']) && $josnDecode['date_range']!=''){
 		
-		$var  			=	$josnDecode['date_range'];
-		$varArr 		=	explode("-",$var);
+		$var  			=	 $josnDecode['date_range'];
+		$varArr 		=	 explode("-",$var);
 		
-		$dateStr1		=	explode("/",$varArr[0]);
+		$dateStr1		=	 explode("/",$varArr[0]);
 		$sd				=	 trim($dateStr1[0]);
 		$sm				=	 trim($dateStr1[1]);
 		$sy				=	 trim($dateStr1[2]);
 
 
-		$dateEnd		=	explode("/",$varArr[1]);
+		$dateEnd		=	 explode("/",$varArr[1]);
 		$ed				=	 trim($dateEnd[0]);
 		$em				=	 trim($dateEnd[1]);
 		$ey				=	 trim($dateEnd[2]);
@@ -60,7 +74,17 @@
 	}
 	
 	
-	$selectEnquiry 			=	"select ENQ.*,EMP.firstname as agent_firstname,EMP.lastname as agent_lastname,EMP.email as agent_email,EMP.contactNumber as agent_contact_number , EMP.id as agent_id from crm_enquiry_capture ENQ  left join employees EMP on (EMP.id=ENQ.enquiry_assign_to_agent_id)  where 1=1 ". $where." order by ENQ.agent_assign_time desc";
+	if($designation_slug=='admin'){
+
+		$selectEnquiry 			=	"select ENQ.*,EMP.firstname as agent_firstname,EMP.lastname as agent_lastname,EMP.email as agent_email,EMP.contactNumber as agent_contact_number , EMP.id as agent_id from crm_enquiry_capture ENQ  left join employees EMP on (EMP.id=ENQ.enquiry_assign_to_agent_id)  where 1=1 ". $where." and enquiry_assign_by_to_agent_id='".$userID."' order by ENQ.agent_assign_time desc";
+	
+	}else{
+		
+		$selectEnquiry 			=	"select ENQ.*,EMP.firstname as agent_firstname,EMP.lastname as agent_lastname,EMP.email as agent_email,EMP.contactNumber as agent_contact_number , EMP.id as agent_id from crm_enquiry_capture ENQ  left join employees EMP on (EMP.id=ENQ.enquiry_assign_to_agent_id)  where 1=1 ". $where." and enquiry_assign_to_agent_id='".$userID."' order by ENQ.agent_assign_time desc";
+		
+	}
+	
+	
 	
 	$result 			= mysql_query($selectEnquiry);
 	$rows 				= mysql_num_rows($result);

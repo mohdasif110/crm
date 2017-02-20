@@ -5,20 +5,13 @@
 			Enquries 
 		<div class="pull-right">
 		<div class="pull-right">
-		
-		
-		
-		 
-		 
 		</div>
 		</div>
 		</h3>
 		</div>
     </div>
 	<div>
-	
 </div>
-
 <div class="panel panel-default">
     <div class="panel-heading">
 	<style>
@@ -57,9 +50,10 @@
                 <th>Name</th>
                 <th>Phone</th>
                 <th>Email</th>
-                <th>Created On</th>
+                <th>Assigned Date</th>
                 <th>Source</th>
-		   </tr>
+				<th>Action</th>
+		  </tr>
 		</thead>
 		<tbody class="tlist">
 			<tr ng-repeat="row in enquiryData|startFrom: offset | limitTo:page_record_limit | filter:search:strict"   >
@@ -71,6 +65,9 @@
 				<td>{{row.email}}</td>
 				<td>{{row.created_time}}</td>
 				<td>{{row.enquiry_from}}</td>
+				<td >
+					<a  href="javascript:;" ng-click="assign_agent(row)" >View</a>
+				</td>
 		 </tr>
 		
 			<tr ng-if="enquiryData.length==0">
@@ -179,27 +176,20 @@
 										<div class="col-md-8">
 											<b><span ng-bind="value"></span></b>
 										</div>
-									
 									</div>	
-					
-										
-									</li>
-								 
-								</ul>
-					</div>
-				
+								</li>
+							</ul>
 				</div>
-					
-				
+			</div>
+			
+			<div ng-if="currentUser.designation_slug=='admin'">
 			<div ng-if="assignmentAction=='success'" class="row">
-					
 					<div class="col-md-12">
 						<div class="alert alert-{{assignmentAction}}">
 							<span ng-bind="assignmentMessage"></span>
 						</div>
 					</div>
-			</div>		
-			
+			</div>
 			<div class="row well" ng-if="selectedUser">
 				<div  class="col-lg-10">
 					<div class="row">
@@ -217,9 +207,6 @@
 					</div>
 				</div>
 			</div>
-		
-			
-			
 			<div class="row well-sm">
 				<div ng-if="selectedUser" class="row  pull-right">
 							
@@ -269,6 +256,7 @@
 					</div>
 			</div>
 		</div>
+	</div>
 		<!--div class="modal-footer">
 				<button type="button" class="btn btn-primary" data-dismiss="modal">
 				  Close
