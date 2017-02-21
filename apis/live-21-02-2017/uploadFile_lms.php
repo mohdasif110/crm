@@ -55,22 +55,21 @@ if($_FILES[0]['name']){
 		
 		if($count>1){
 		
-			
 			$i		=	0;
-			$flag 	= 	true;	
-		
-			foreach($val as $k=>$v){
+			$flag 	= true;	
 			
+			foreach($val as $k=>$v){
+				
 				$index				=	strtolower(trim($headArr[$i]));	
-				$TempArr[$index]			=	$v;	
+				$TempArr[]			=	$v;	
 				$TempArr2[$index]	=	$v;	
 				$i++;
 			}
-			
+		
 			$rflag 	= save_enquery($TempArr2 , $enquiry_from='CSV');
 			
-			if($rflag=='new'){	
-			
+			if($rflag=='new'){
+				
 				$NewEnqueries[] 			=	 $TempArr; 
 				
 			}else if($rflag=='already'){
@@ -81,15 +80,11 @@ if($_FILES[0]['name']){
 				
 				$phoneValidation[]			=	$TempArr;
 			}
+		
 		}
 		
 		$count++;
-	
 	}
-	
-	
-	
-	
 	
 	echo  json_encode(array('action'=>'success', 'message'=>'file has been uploaded successfully.','csvHead'=>$headArr,'newIn'=>$NewEnqueries,'already'=>$AlreadyEnqueries,'phoneValidation'=>$phoneValidation));
 	
@@ -143,21 +138,19 @@ if($_FILES[0]['name']){
 			if($numrow>0)
 			{
 				
-					return 'already';
+				return 'already';
 			
 			}else{
-					
-					$insertLead 		=	"insert into crm_enquiry_capture set query_request_id='".$numberdigit."' ,enquiry_from='".$enquiry_from."', leadvalujson='".$jsonPost."', created_on='".date('Y-m-d H:i:s')."' ,created_time='".time()."' ".$addingQuery;
 				
+					$insertLead 		=	"insert into crm_enquiry_capture set query_request_id='".$numberdigit."' ,enquiry_from='".$enquiry_from."', leadvalujson='".$jsonPost."', created_on='".date('Y-m-d H:i:s')."' ,created_time='".time()."' ".$addingQuery;
+					
 					if(mysql_query($insertLead)){
-						
+					
 						return 'new';
 					}
-				
-				}
-			
+				}	
 			}
-			
+		
 			}else{
 				
 				$insertLead 	=	"insert into crm_enquiry_capture set query_request_id='".$numberdigit."' ,enquiry_from='".$enquiry_from."', leadvalujson='".$jsonPost."',created_time='".time()."'";
@@ -182,18 +175,13 @@ if($_FILES[0]['name']){
 								'email'=>'email',
 								'user_contact'=>'phone',
 								'phone'=>'phone',
-								'Phone'=>'phone',
 								'tell_us_are_you_interested_'=>'tell_us_are_you_interested',
 								'want_to_schedule_a_free_site_visit_'=>"want_to_schedule_a_free_site_visit",
 								'preferred_day_for_site_visit_'=>'preferred_day_for_site_visit',
 								'city'=>'city',
 								'gender'=>'gender',
 								'country'=>'country',
-								'enquiry'=>'enquiry',
-								'Alternate _Phone'=>'Alternate _Phone',
-								'State'=>'State',
-								'CRM'=>'CRM',
-								'Remark'=>'Remark'	
+								'enquiry'=>'enquiry' 
 		);	
 		
 		

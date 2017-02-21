@@ -44,28 +44,54 @@
     display: inline-block;
  }
 </style>
-	<h3 class="panel-title">
+	<h3 class="panel-title"></h3>
 	
-		
-	</h3>
 	
-	<div class="row">
+	<div  class="row">
 		
-			<div class="col-md-12 well" >
+		<div   class="col-md-12" >
+			
+			<div class="form-group">
+				<div class="col-md-2">
 				
-				 <button type="button" class="btn btn-info btn-sm" id="changeDate">
-				  <span class="glyphicon glyphicon-calendar"></span> Calendar
-				  <input   type="text" style="width:0px;height:0px;bolder:0px;background-color:#5bc0de;"  id="dateRangText" ng-model="dateRangeLead"  ng-change="changeDD()" name="daterange" ng-value="01/01/2015 - 01/31/2015"  />
-				</button>
-					<span  class="well-sm" ng-bind="dateRangeTextShow"></span>
+					<button type="button" class="btn btn-info btn-sm" id="changeDate">
+					<span class="glyphicon glyphicon-calendar"></span> Calendar
+					<input   type="text" style="width:0px;height:0px;bolder:0px;background-color:#5bc0de;"  id="dateRangText" ng-model="dateRangeLead"  ng-change="changeDD()" name="daterange" ng-value="01/01/2015 - 01/31/2015"  />
+					</button>
+				</div>
+				
+				
+			<div class="col-md-3">
+				
+				<input class="form-control" type="text" ng-model="search.$" placeholder="Search"/>
+			
+			</div>	
+			
+			<div class="col-md-7">
+			
+				<span  class="well well-sm pull-right" ng-bind="dateRangeTextShow"></span>
+			
+			
+			</div>
+	
+		<!--div class="col-md-1">
+		<a  href="javascript:;"  ng-click="capture_lead()">
+		<img  src="stuffs/icons/reff.png"></a>
+		</div-->
+	
+		</div>
+		
+		</div>
+				
+				
+					
 			</div>
 	
 	</div>
 	
 	<div>
 			<!--a class="pull-right" style="position: relative;bottom: 20px;border-radius: 0px;padding-left: 4px; outline: none;" href="javascript:;"  ng-click="capture_lead()">
-			<img  src="stuffs/icons/reff.png"></a>
-			<input type="text" class="pull-right" style="position: relative;bottom: 20px;border-radius: 0px;padding-left: 4px; outline: none;" ng-model="search.$" placeholder="Search"/-->
+			<img  src="stuffs/icons/reff.png"></a-->
 	</div>
 
 	</div>
@@ -76,7 +102,10 @@
 				<th>Sno.&nbsp;</th>
 				<!--th>R/U</th-->
 				<th>
-				<!--All <span class="pull-right"><input type="checkbox"  ng-click="check_all_ivr()"  ng-model="check_all"/></span> --></th>
+				
+				<span class="pull-right"><input type="checkbox"  ng-click="check_all_ivr()"  ng-model="check_all"/></span>
+				
+				</th>
 				<th>Enquiry ID</th>
                 <th>Name</th>
                 <th>Phone</th>
@@ -103,15 +132,17 @@
 						<span ng-if="row.syn_marker_new==1" class="badge ng-binding ">R</span>
 					</td-->
 				<td>
-				
-				<!--span   ng-if="row.ivr_push_status=='Pending'"  class="pull-right">
-				<input type="checkbox"  ng-model="row.checked"   ng-click="prepare_push_ivr()"   ng-checked="check_all"/>
-				</span-->
+			
+				<!--input type="checkbox"  ng-model="row.checked"/-->
 				
 				<!--span   ng-if="row.ivr_push_status=='Reopen'"  class="pull-right"><input type="checkbox"  ng-model="row.checked"   ng-click="prepare_push_ivr()"   ng-checked="check_all"/></span-->
 				
 				<span   class="pull-right">
-					<input type="checkbox"  ng-model="row.checked"   ng-click="prepare_push_ivr()"   ng-checked="check_all"/>
+					<input type="checkbox"  ng-model="row.checked"   ng-click="prepare_push_ivr()"/>
+					
+					
+					<!--input type="checkbox"  ng-model="row.checked"   ng-click="prepare_push_ivr()"   ng-checked="check_all"/-->
+				
 				</span>
 					
 					
@@ -175,33 +206,48 @@
   </thead>
  <tbody style="background-color:#DAF7A6;">
 	<tr ng-repeat="item in prepare_ivr">
+		
 		<td ng-bind="$index+1"></td>	
 		<td ng-bind="item.query_request_id"></td>
 		<td ng-bind="item.name"></td>
-		
 		<td ng-bind="item.phone"></td>
 		<td ng-bind="item.email"></td>
 		
-		<td><a href="javascript:;" ng-click="prepare_ivr.splice($index, 1)" >X</a></td>
+		<td>
+			<a href="javascript:;"  ng-click="remove_selected($index, 1)" >X</a>
+		</td>
+	
 	</tr>
  </tbody>
 </table>
 	
-	<div class="well"  >
-		<div text-align="right" >
+	<div class="row well">
+	
+		<div class="col-md-12">
+			<div  ng-if="myMessage">
+				<div class="well" ng-bind="myMessage"></div>
+			</div>
+			<div class="row">
+				   <div class="col-lg-2">
+					<input type="radio" name="ptype" ng-click="det_chooser('ivr')" value="ivr" ng-model="ptypes" />IVR
+				   </div>
+				   <div class="col-lg-2">
+					<input type="radio" name="ptype" ng-click="det_chooser('agent')" value="Agent" ng-model="ptypes" ng-checked="true" />Agent
+				   </div>
+				   <div class="col-lg-6">
 			
-				<input type="radio" name="ptype" value="ivr" ng-model="ptypes" />IVR
-				<input type="radio" name="ptype" value="Agent" ng-model="ptypes" />Agent
-				
-				<div ng-if="ptypes=='agent'">---</div>
-				
-				<select  ng-model="selectedAgent">
-				<option value="">--Please select Agent--</option>
-				<option ng-repeat="x in agentData" value="{{x.id}}">{{x.firstname}} {{x.lastname}} </option>
-				</select>
-				
-				<input  type="button"  ng-click="push_to_ivr()" class="btn btn-primary" value="Submit" />
-		
+					<!--select ng-if="agentShow1"  ng-model="selectedAgent"  ng-change="change_agent(this.value)">
+					<option value="">--Please select Agent--</option>
+					<option ng-repeat="x in agentData" value="{{x.id}}">{{x.firstname}} {{x.lastname}} </option>
+					</select-->
+
+					<select ng-if="agentShow1" ng-change="updateValue(agent)"  ng-model="agent.id" ng-options="agent.id as agent.firstname for agent in agentData">
+				 </select>
+				</div>
+				<div class="col-lg-2">
+					<input  type="button"  ng-click="push_to_ivr()" class="btn btn-primary" value="Submit" />
+				</div>
+			</div>
 		</div>
 	</div>
 	
@@ -241,6 +287,7 @@
 	 </div>
     </div>
  </div>
+ 
  <div id="assignAgent" class="modal fade bs-example-modal-lg" tabindex="-1"
     role="dialog" aria-labelledby="classInfo" aria-hidden="true">
       <div class="modal-dialog modal-lg">
@@ -366,8 +413,7 @@
 		</div>
     </div>
  </div>
- 
- 
+ </div>
  
 <div id="csvImportModal" class="modal fade bs-example-modal-lg" tabindex="-1"
     role="dialog" aria-labelledby="classInfo" aria-hidden="true">
@@ -376,7 +422,7 @@
           <div class="modal-header">
            
 		   <button type="button" class="close"  ng-click="CloseModal()" aria-hidden="true">
-              ×
+              x
             </button>
 			
 			<h4 class="modal-title" id="classModalLabel">
@@ -409,6 +455,9 @@
 			</div>
 			<!-- end New In -->
 		   <!-- Phone Validation  -->
+		   
+		   
+		   
 			<div ng-if="totalCSVData.phoneValidation.length > 0">
 			<div class="bg-danger row"> 
 			<div class="col-sm-12 centered">
@@ -444,7 +493,10 @@
 				</thead>
 				<tbody>
 					<tr  ng-repeat="alr in totalCSVData.already" >
-						<td ng-bind="$index+1"></td><td ng-repeat="val in alr">{{val}}</td>
+						<td ng-bind="$index+1"></td>
+						
+						<td ng-repeat="val in alr">{{val}}</td>
+						
 					</tr>
 				</tbody>
 			</table>	

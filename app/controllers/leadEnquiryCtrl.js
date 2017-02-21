@@ -28,7 +28,10 @@ var app = app || {};
 		$scope.baseUrl					=	baseUrl;
 		$scope.leadCapture				=	[];
 		$scope.enquiryData				=	[];
-		$scope.currentUser 				= user_session;
+		$scope.currentUser 				=	user_session;
+		$scope.agentShow1				=	true;
+		$scope.ptypes					=	'agent';
+		$scope.selectedAgent			=	0;
 		
 		
 	$http.get(baseUrl+"apis/helper.php?method=getCRMUsersByDesignation&params=designation_slug:agent")
@@ -93,40 +96,62 @@ var app = app || {};
 	
 	$scope.check_all_ivr = function(){
 		
+		var flag 		=	false;
 		if($scope.check_all)
 		{
-			/*
-			var cList = [];
-			angular.forEach($scope.enquiryData,function(value,key){
-				cList.push({query_request_id:value.query_request_id,name:value.name,phone:value.phone,email:value.email});
-			});
+			
+			flag 		=	true;
+		}
+		
+		var cList = [];
+		angular.forEach($scope.enquiryData,function(row,key){
+				
+				cList.push({query_request_id:row.query_request_id,name:row.name,phone:row.phone,email:row.email});
+				row.checked			=	flag;
+		});
+		
+		
+	    
+		
+		if(flag){
+			
 			$scope.prepare_ivr		=   cList;
 			$scope.queryCount		=	cList.length;
-			*/
 		
 		}else{
 			
-			var cList 			= 	[];
-			$scope.queryCount	=	0;
+			$scope.prepare_ivr		=   [];
+			$scope.queryCount		=	0;
+		
 		}
 		
+		
+   };
 	
- };
+	
+	$scope.remove_selected		=	function($index, $va){
+		
+		$scope.prepare_ivr.splice($index, $va);
+		$scope.prepare_push_ivr();
+		
+	
+	}
+	
+	
 	
 	//push  to IVR.... 
 	$scope.push_to_ivr			=	function()
 	{
-		
-		$scope.agentShow 	=	true;
-		
-		$scope.currentUser
+			
 		
 		if($scope.ptypes=='agent'){
 			
-			if($scope.selectedAgent==''){
+			if($scope.selectedAgent==0){
 				
 				$scope.myMessage  	=	"Please select agent.";
+				
 				return false;
+			
 			}else{
 				
 				$scope.myMessage  	=	"";
@@ -141,9 +166,9 @@ var app = app || {};
 			
 			$http.post(baseUrl+"/apis/manual_push_ivr.php", {mydata:$scope.prepare_ivr , 'agent_id':$scope.selectedAgent,'ptype':$scope.ptypes,'assigned_by':$scope.currentUser})
 			.then(function(response) {
-					
+				
 						if(response.data.action=='success'){
-						
+							
 							$scope.read_captured_leads();
 							var cList 				= 	[];
 							$scope.queryCount		=	0;
@@ -156,6 +181,29 @@ var app = app || {};
 		
 	}
 	//End of push to IVR... 
+	
+	$scope.det_chooser			=	function($type)
+	{
+	
+			if($type=='agent'){
+				
+				$scope.agentShow1	=	true;
+			
+			}else{
+				
+				$scope.agentShow1	=	false;
+			}
+	}	
+	
+	
+	$scope.updateValue			=	function($agent){
+			
+			$scope.selectedAgent			=	$agent.id;
+			console.log($scope.selectedAgent);
+	
+	
+	}
+	
 	
 	$scope.push_into_ivr		=	function(){
 	}
