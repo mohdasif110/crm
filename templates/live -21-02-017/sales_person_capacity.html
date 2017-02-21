@@ -1,0 +1,61 @@
+<style>
+	.attention {
+		background-color: coral;
+	}
+</style>
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="page-header">
+            <h3 class="fts-17"> 
+				<i ng-hide="true" class="fa fa-envelope tooltip-button demo-icon icon-edit" title=".icon-edit"></i>Sales Person Capacity
+				<span class="badge">January/ 2017</span>
+			</h3>
+        </div>
+    </div>
+</div>
+
+<!--Panel--> 
+<div class="panel panel-default">
+	<div></div>
+		<table class="table table-bordered">
+			<thead>
+				<th>#</th>
+				<th>Sales Person Name</th>
+				<th class="make_center">Sales Person Capacity</th>
+				<th>Manager</th>
+				<th class="make_center">Manager SPL Capacity </th>
+				<th class="make_center">Manager MPL Capacity </th>
+				<th class="make_center col-md-4">Action</th>
+			</thead>
+			<tbody>
+				<tr ng-repeat="user in sales_person">
+					<td ng-bind="$index+1">{{user.manager.capacity}}</td>
+					<td>{{user.fullname}}</td>
+					<td class="make_center">{{user.total_capacity | handleNull}}</td>
+					<td>{{user.manager.name}}</td>
+					<td class="make_center">{{user.manager.capacity | handleNull}}</td>
+					<td class="make_center">{{user.manager.mpl_capacity | handleNull}}</td>
+					<td class="make_center">
+						<button 
+							class="btn btn-xs btn-info"
+							is-disabled 
+							data-capacity="{{user.manager.capacity}}"
+							data-usercapacity ="{{user.total_capacity}}"
+							ng-click="addSPCapacity(user)"
+						>Add Capacity</button>
+						
+						<button 
+							can:edit
+							class="btn btn-xs btn-info"
+							data-capacity1="{{user.total_capacity}}"
+							data-capacity2="{{user.manager.capacity}}"
+							ng-click="editSpCapacity(user)"
+						>Edit Capacity</button>
+						
+						<a ng-href="previous_capacities/{{user.id}}/sales_person" class="btn btn-xs btn-primary">View Previous Capacities</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+</div>
+<!--End: Panel-->

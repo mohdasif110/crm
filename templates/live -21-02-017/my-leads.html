@@ -1,0 +1,367 @@
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="page-header">
+            <h3 class="fts-17"> <i class="glyphicon glyphicon-user tooltip-button demo-icon icon-edit" title=".icon-edit"></i>My Leads</h3>
+			
+			</div>
+		</div>
+</div>
+
+<!--Table panel-->
+<div class="panel panel-default">
+	
+	<div class="panel-heading">Lead Listing 
+		
+		<button class="btn btn-info btn-xs pull-right">Total Records: <span class="badge badge-info">{{leads.length}}</span></button></div>
+		
+		<!--Table for view 1-->
+			<table class="table table-bordered" ng-if="view === 'view1'" style="overflow-x: auto; overflow-y: hidden;">
+			<thead>
+			<th>#</th>
+			<th>Lead Generation Date</th>
+			<th ng-if="!hideLeadAddedByCol">Lead Added By</th>
+			<th>Enquiry ID</th>
+			<th class="make_center">Lead ID</th>
+			<th class="make_center">Lead Category</th>
+			<th>Client Name</th>
+			<th>Status</th>
+			<th>Sub Status</th>
+			<th>Lead Assigned To ASM <small>(area sales manager)</small></th>
+			<th>Lead Assigned To SP <small>(sales person)</small></th>
+			<th class="make_center">Assign Lead</th>
+			</thead>
+			<tbody>
+				<tr ng-repeat="data in leads | startFrom : ((pagination.current_page - 1) * pagination.page_size) | limitTo: pagination.page_size">
+					<td ng-bind="pagination.page_size * (pagination.current_page-1) + $index+1"></td>
+					<td>{{data.leadAddDate | date : 'dd MMMM, yyyy' : '+0530'}}</td>
+					<td ng-if="!hideLeadAddedByCol">{{data.lead_added_by_employee}}</td>
+					<td><a ng-href="lead_detail/{{data.enquiry_id}}/{{data.lead_id}}">{{data.enquiry_id}}</a></td>
+					<td class="make_center">{{ ((data.lead_id !== null)) && data.lead_id || 'NA' }}</td>
+					<td class="make_center">{{data.lead_category && data.lead_category || '-'}}</td>
+					<td>{{data.customerName}}</td>					
+					<td>{{getStatusTitle(data.disposition_status_id)}}</td>
+					<td>{{getStatusTitle(data.disposition_sub_status_id)}}</td>
+					<td>{{data.asm_name}}</td>
+					<td>{{data.sp_name}}</td>
+					<td>
+						<button 
+							ng-if="!data.lead_assigned_to_asm"
+							class="btn btn-primary btn-xs"
+							ng-click="manualLeadAssignToAsm($event, data.enquiry_id, data.lead_category)"
+						>Assign Lead
+						</button>
+						
+						<span class="label label-primary" ng-if="!!data.lead_assigned_to_asm">Assigned</span>
+					</td>
+				</tr>
+			</tbody>
+			</table>
+		<!--End: Table for view 1-->
+		
+		<!--Table for view 2-->
+			<table class="table table-bordered" ng-if="view ==='view2'">
+				<thead style="font-size: 12px;">
+			<th>#</th>
+			<th>Lead Generation Date</th>
+			<th>Lead Added By</th>
+			<th>Enquiry ID</th>
+			<th class="make_center">Lead ID</th>
+			<th>Client Name</th>
+			<th>Client Email</th>
+			<th>Client Mobile</th>
+			<th>Status</th>
+			<th>Sub Status</th>
+			<th>Lead Assigned To SP <small>(sales person)</small></th>
+			<th class="make_center">Action</th>
+			</thead>
+	
+			<tbody>
+		<tr ng-repeat="data in leads | startFrom : ((pagination.current_page - 1) * pagination.page_size) | limitTo: pagination.page_size">
+			<td ng-bind="pagination.page_size * (pagination.current_page-1) + $index+1"></td>
+			<td>{{data.leadAddDate | date : 'dd MMMM, yyyy' : '+0530'}}</td>
+			<td>{{data.lead_added_by_employee}}</td>
+			<td><a ng-href="lead_detail/{{data.enquiry_id}}/{{data.lead_id}}">{{data.enquiry_id}}</a></td>
+			<td>{{data.lead_id}}</td>
+			<td>{{data.customerName}}</td>
+			<td>{{data.customerEmail}}</td>
+			<td>{{data.customerMobile}}</td>
+			<td>{{data.primary_status_title}}</td>
+			<td>{{data.secondary_status_title}}</td>
+			<td><span is:value value="{{data.sp_name}}">{{data.sp_name}}</span></td>
+			
+			<td>
+				<a 
+					class="label label-primary"
+					ng-href="#"
+					ng-if="!data.lead_assigned_to_sp || data.lead_assigned_to_sp == 0"
+					ng-click="showLeadAssignDialog(data.enquiry_id)">Assign Lead
+				</a>
+				
+				<a ng-href="#" class="label label-primary make_center not-active" style="cursor:pointer;" title="{{data.lead_assigned_to_sp_on | date : 'dd MMMM, yyyy' : '+0530'}}" ng-if="data.lead_assigned_to_sp > 0">Assigned</a>			
+			</td>
+		</tr>
+		<tr class="text-danger" ng-if="leads.length <= 0">
+			<td class="make_center" colspan="12">No Record Found</td>
+		</tr>
+	</tbody>
+		</table>
+		<!--End: Table for View 2-->
+		
+		<!-- view 3: Table for sales person -->
+			<table class="table table-bordered" ng-if="view ==='view3'">
+			<thead>
+			<th>#</th>
+			<th>Lead Generation Date</th>
+			<th>Enquiry ID</th>
+			<th class="make_center">Lead ID</th>
+			<th>Client Name</th>
+			<th>Client Email</th>
+			<th>Client Mobile</th>
+			<th>Status</th>
+			<th>Sub Status</th>
+			<th class="make_center col-sm-3">Action</th>
+			</thead>
+			<tbody>
+		<tr ng-repeat="data in leads | startFrom : ((pagination.current_page - 1) * pagination.page_size) | limitTo: pagination.page_size">
+			<td ng-bind="pagination.page_size * (pagination.current_page-1) + $index+1"></td>			
+			<td>{{data.leadAddDate | date : 'dd MMMM, yyyy' : '+0530'}}</td>
+			<td>
+				<span ng-if="data.is_lead_accepted == 0">{{data.enquiry_id}}</span>
+				<a ng-if="data.is_lead_accepted != 0" ng-href="lead_detail/{{data.enquiry_id}}/{{data.lead_id}}" role="link">	{{data.enquiry_id}} </a>
+			</td>
+			<td>{{data.lead_id}}</td>
+			<td>{{data.customerName}}</td>
+			<td>{{data.customerEmail}}</td>
+			<td>{{data.customerMobile}}</td>
+			<td>{{data.primary_status_title}}</td>
+			<td>{{data.secondary_status_title}}</td>
+			<td class="make_center">
+				<button 
+					class="btn btn-xs btn-info"
+					ng-click="acceptLead(data.enquiry_id)"
+					ng-if="data.is_lead_accepted == 0">Accept</button>
+				<button 
+					class="btn btn-xs btn-danger"
+					ng-click="rejectLeadAction(data.enquiry_id)"
+					ng-if="data.is_lead_accepted == 0">Reject</button>
+				
+				<button
+					class="btn btn-info btn-xs"
+					data-target="#lead_info_popup_panel_meeting"
+					data-toggle="modal"
+					ng-click="getLeadStatusAndDetail(data.enquiry_id)"
+					ng-if="data.is_lead_accepted == 0">
+					View Lead
+				</button>
+				<span class="label label-info" style="cursor: pointer;" ng-if="data.is_lead_accepted == 1" title="Lead accepted on {{data.lead_accept_datetime | date :'fullDate'}}">Lead Accepted</span>
+			</td>
+		</tr>
+		<tr class="text-danger" ng-if="leads.length <= 0">
+			<td class="make_center" colspan="12">No Record Found</td>
+		</tr>
+	</tbody>
+		</table>
+		<!--End: Table for view 3-->
+		
+		<!--Table for view 4-->
+			<table class="table table-bordered" ng-if="view ==='view4'">
+			<thead>
+			<th>#</th>
+			<th>Lead Generation Date</th>
+			<th>Enquiry ID</th>
+			<th class="make_center">Lead ID</th> 
+			<th>Client Name</th>
+			<th>Client Email</th>
+			<th>Client Mobile</th>
+			<th>Status</th>
+			<th>Sub Status</th>
+			</thead>
+			<tbody>
+		<tr ng-repeat="data in leads | startFrom : ((pagination.current_page - 1) * pagination.page_size) | limitTo: pagination.page_size">
+			<td ng-bind="pagination.page_size * (pagination.current_page-1) + $index+1">
+			<td>{{data.leadAddDate | date : 'dd MMMM, yyyy' : '+0530'}}</td>
+			<td><a ng-href="lead_detail/{{data.enquiry_id}}/{{data.lead_id}}">{{data.enquiry_id}}</a></td>
+			<td>{{data.lead_id}}</td>
+			<td>{{data.customerName}}</td>
+			<td>{{data.customerEmail}}</td>
+			<td>{{data.customerMobile}}</td>
+			<td>{{getStatusTitle(data.disposition_status_id)}}</td>
+			<td>{{getStatusTitle(data.disposition_sub_status_id)}}</td>
+		</tr>
+		<tr class="text-danger" ng-if="leads.length <= 0">
+			<td class="make_center" colspan="12">No Record Found</td>
+		</tr>
+	</tbody>
+		</table>
+		<!--End: Table for view 4-->
+		
+		<!--Pagination--> 
+			<div class="pull-right" ng-if="leads.length > 0">
+				<ul 
+					uib-pagination 
+					total-items="leads.length" 
+					ng-model="pagination.current_page" 
+					items-per-page="pagination.page_size" 
+					boundary-links="pagination.show_boundary_links" 
+					max-size="pagination.pagination_size" 
+					ng-change="pagination.changePage ( pagination.current_page )">
+				</ul>
+			</div>
+		<!--End: Pagination-->
+		
+	<!--</div>-->
+</div>
+
+<!--Lead reject Modal-->
+<div class="modal fade" id="lead_reject_modal"> 
+	<div class="modal-dialog" role="document"> 
+		<div class="modal-content"> 
+			<div class="modal-header"> 
+				<h5 class="modal-title">Lead Rejection Reason</h5> 
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"> 
+					<span aria-hidden="true">&times;</span> 
+				</button> 
+				<p class="text-primary" style="position: relative; top:17px;">Enquiry ID - {{reject_lead_enquiry_id}}</p>
+			</div> 
+			<div class="modal-body"> 
+				<form class="form">
+					
+					<div class="form-group">
+						<textarea style="height:150px;" ng-model="lead_reject_reason" class="form-control" placeholder="Enter your reason here"></textarea>
+					</div>
+				</form>
+			</div> 
+			<div class="modal-footer"> 
+				
+				<button 
+					type="button" 
+					ng-disabled="!lead_reject_reason"
+					class="btn btn-default btn-xs" 
+					ng-click="rejectLead(lead_reject_reason, reject_lead_enquiry_id)"
+				>Reject Lead</button> 
+			</div> 
+		</div> 
+	</div> 
+</div>
+
+<!--Area Sales Managers List BS Popup modal --> 
+<div class="modal fade" id="asm_users_list_popup">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				Area Sales Managers
+			</div>
+			<div class="modal-body">
+				
+				<div class="panel panel-default">
+					<div class="panel-heading" ng-hide="0">
+						Enquiry Id: {{enquiry_id_for_asm_assignment}}
+					</div>
+					<table class="table table-bordered">
+						<thead>
+							<th>Employee Name</th>
+							<th class="make_center">Total Capacity</th>
+							<th class="make_center">Remaining Capacity</th>
+							<th class="make_center">Action</th>
+						</thead>
+						<tbody>
+							<tr ng-repeat="emp in area_sales_managers">
+								<td>{{emp.employee_name}}</td>
+								<td class="make_center">{{emp.total_capacity && emp.total_capacity || '-'}}</td>
+								<td class="make_center">{{emp.remaining_capacity && emp.remaining_capacity || '-'}}</td>
+								<td class="make_center">
+									<button 
+										ng-disabled="!emp.total_capacity"
+										assign:btn
+										employee="emp"
+										enquiry_id="{{enquiry_id_for_asm_assignment}}"
+										class="btn btn-xs btn-primary">Assign</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!--Modal to show sales person list--> 
+
+<div class="modal fade" id="sales_person_modal">
+	
+	<div class="modal-dialog" role="document">
+		
+		<div class="modal-content">
+			<div class="modal-header">
+				Sales Persons
+			</div>
+			
+			<div class="modal-body">
+				
+				<div class="panel panel-default">
+					<div class="panel-heading" ng-hide="0">
+						Enquiry Id: {{lead_assign.enquiry_id}}
+					</div>
+					<table class="table table-bordered">
+						<thead>
+							<th>Employee Name</th>
+							<th class="make_center">Total Capacity</th>
+							<th class="make_center">Remaining Capacity</th>
+							<th class="make_center">Action</th>
+						</thead>
+						<tbody>
+							<tr ng-repeat="sales_person in sales_persons">
+								<td>{{sales_person.sales_person_name}}</td>
+								<td class="make_center">{{sales_person.capacity}}</td>
+								<td class="make_center">{{sales_person.remaining_capacity}}</td>
+								<td class="make_center">
+									<button 
+										assign:btn
+										class="btn btn-xs btn-primary"
+										ng-click="assignLeadToSalesPerson(sales_person.id)"
+										>Assign
+									</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				
+			</div>
+		</div>
+		
+	</div>
+	
+</div>
+
+<!--Lead Info Popup Modal-->
+
+<div class="modal fade" id="lead_info_popup_panel_meeting">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">Lead Details</div>
+			<div class="modal-body" style="background-color: #B0E0E6;">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-md-3 bordered_bs_col fs12">Status</div>
+						<div class="col-md-9 bordered_bs_col">{{lead_status_data.status}}</div>
+					</div>
+					<div class="row">
+						<div class="col-md-3 bordered_bs_col fs12">Project</div>
+						<div class="col-md-9 bordered_bs_col">{{lead_status_data.project}}</div>
+					</div>
+					<div class="row">
+						<div class="col-md-3 bordered_bs_col fs12">Date</div>
+						<div class="col-md-9 bordered_bs_col">{{lead_status_data.event_date |date: 'fullDate'}}</div>
+					</div>
+					<div class="row">
+						<div class="col-md-3 bordered_bs_col fs12">Time</div>
+						<div class="col-md-9 bordered_bs_col">{{lead_status_data.event_time}}</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

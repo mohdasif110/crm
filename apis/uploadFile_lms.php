@@ -171,7 +171,7 @@ if($_FILES[0]['name']){
 	}
 	
 	function mapFiledKey($jsonPost, $type='maped'){
-		
+	
 		try {
 			
 			$NameArr	=  array(
@@ -183,6 +183,7 @@ if($_FILES[0]['name']){
 								'user_contact'=>'phone',
 								'phone'=>'phone',
 								'Phone'=>'phone',
+								'project_name'=>'project_name',
 								'tell_us_are_you_interested_'=>'tell_us_are_you_interested',
 								'want_to_schedule_a_free_site_visit_'=>"want_to_schedule_a_free_site_visit",
 								'preferred_day_for_site_visit_'=>'preferred_day_for_site_visit',
@@ -193,7 +194,7 @@ if($_FILES[0]['name']){
 								'Alternate _Phone'=>'Alternate _Phone',
 								'State'=>'State',
 								'CRM'=>'CRM',
-								'Remark'=>'Remark'	
+								'Remark'=>'Remark'
 		);	
 		
 		

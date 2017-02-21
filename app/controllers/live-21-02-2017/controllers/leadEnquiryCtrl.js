@@ -4,6 +4,7 @@
 var app = app || {};
 
 (function (app,$){
+
 	
 	app.directive('ngFiles', ['$parse', function ($parse) {
 
@@ -20,24 +21,15 @@ var app = app || {};
 
 	 app.controller('leadEnquiryCtrl', function ($scope,$location,user_session,$http,Session,utilityService,baseUrl,$interval,$filter,$window)
 	 {
-	
-	
+		 
 		 
 		$scope.page_record_limit 		=   10;
 		$scope.current_page_number 		= 	1;
 		$scope.baseUrl					=	baseUrl;
 		$scope.leadCapture				=	[];
 		$scope.enquiryData				=	[];
-		$scope.currentUser 				=	user_session;
-		$scope.agentShow1				=	true;
-		$scope.ptypes					=	'agent';
-		$scope.selectedAgent			=	0;
+		$scope.currentUser = user_session;
 		
-		
-	$http.get(baseUrl+"apis/helper.php?method=getCRMUsersByDesignation&params=designation_slug:agent")
-		.then(function(response) {
-			$scope.agentData     		=			response.data.data;
-	});
 		
 		
 		$scope.read_captured_leads		=    function()
@@ -96,114 +88,50 @@ var app = app || {};
 	
 	$scope.check_all_ivr = function(){
 		
-		var flag 		=	false;
 		if($scope.check_all)
 		{
-			
-			flag 		=	true;
-		}
-		
-		var cList = [];
-		angular.forEach($scope.enquiryData,function(row,key){
-				
-				cList.push({query_request_id:row.query_request_id,name:row.name,phone:row.phone,email:row.email});
-				row.checked			=	flag;
-		});
-		
-		
-	    
-		
-		if(flag){
-			
+			/*
+			var cList = [];
+			angular.forEach($scope.enquiryData,function(value,key){
+				cList.push({query_request_id:value.query_request_id,name:value.name,phone:value.phone,email:value.email});
+			});
 			$scope.prepare_ivr		=   cList;
 			$scope.queryCount		=	cList.length;
+			*/
 		
 		}else{
 			
-			$scope.prepare_ivr		=   [];
-			$scope.queryCount		=	0;
-		
+			var cList 			= 	[];
+			$scope.queryCount	=	0;
 		}
 		
-		
-   };
 	
-	
-	$scope.remove_selected		=	function($index, $va){
-		
-		$scope.prepare_ivr.splice($index, $va);
-		$scope.prepare_push_ivr();
-		
-	
-	}
-	
-	
+ };
 	
 	//push  to IVR.... 
 	$scope.push_to_ivr			=	function()
 	{
-			
-		
-		if($scope.ptypes=='agent'){
-			
-			if($scope.selectedAgent==0){
-				
-				$scope.myMessage  	=	"Please select agent.";
-				
-				return false;
-			
-			}else{
-				
-				$scope.myMessage  	=	"";
-			}
-		
-		}else{
-			
-			$scope.agentShow 	=	false;
-		}
 		
 		if($scope.prepare_ivr.length>0){
-			
-			$http.post(baseUrl+"/apis/manual_push_ivr.php", {mydata:$scope.prepare_ivr , 'agent_id':$scope.selectedAgent,'ptype':$scope.ptypes,'assigned_by':$scope.currentUser})
-			.then(function(response) {
-				
-						if(response.data.action=='success'){
-							
-							$scope.read_captured_leads();
-							var cList 				= 	[];
-							$scope.queryCount		=	0;
-							$('#popover_item').popover('hide');
-						
-					}
-					
-				});
-		}
 		
+			//$(window).trigger('click');
+			$http.post(baseUrl+"/apis/manual_push_ivr.php", {mydata:$scope.prepare_ivr})
+				.then(function(response) {
+					
+					if(response.data.action=='success'){
+						
+						$scope.read_captured_leads();
+						var cList 				= 	[];
+						$scope.queryCount		=	0;
+						//$scope.prepare_ivr		=	[];
+						//$('#selected_queries').hide();
+						$('#popover_item').popover('hide');
+					}
+				});
+		
+			}
 	}
 	//End of push to IVR... 
-	
-	$scope.det_chooser			=	function($type)
-	{
-	
-			if($type=='agent'){
-				
-				$scope.agentShow1	=	true;
-			
-			}else{
-				
-				$scope.agentShow1	=	false;
-			}
-	}	
-	
-	
-	$scope.updateValue			=	function($agent){
-			
-			$scope.selectedAgent			=	$agent.id;
-			console.log($scope.selectedAgent);
-	
-	
-	}
-	
 	
 	$scope.push_into_ivr		=	function(){
 	}
@@ -222,17 +150,15 @@ var app = app || {};
 	}
 
 	
-	
 	$scope.csvData 			=	[];
 	var formdata = new FormData();
 	
 	$scope.getTheFiles = function ($files) {
-		
+	
 		angular.forEach($files, function (value, key) {
 			formdata.append(key, value);
 		});
-		
-			$scope.uploadFiles();
+		$scope.uploadFiles();
 	};
 
 	// NOW UPLOAD THE FILES.
@@ -246,7 +172,6 @@ var app = app || {};
 				'Content-Type': undefined
 			}
 		};
-		
 		// SEND THE FILES.
 		$http(request)
 			.success(function (data) {
@@ -302,7 +227,6 @@ var app = app || {};
 		$window.location = csv_formate;
 	
 	}
-	
 	//Import csv formate.
 	
 	$scope.changeDD=function(){
@@ -311,31 +235,42 @@ var app = app || {};
 		
 		$http.post(baseUrl+"/apis/read_enquiry.php", {date_range:date_range})
 			.then(function(response) {
-		
+				
 				$scope.enquiryData     		=			response.data.enData;
 				$scope.dateRangeTextShow	=			response.data.dateRange
 				
 		});
-	}
 	
+	}
+		
 		$scope.assign_agent				=	function($query){
+		
 		$scope.assignmentMessage		=	'';
 		$scope.assignmentAction			=	''
 		$scope.QueryData 				=	$query;	//Query Data..
 		$scope.agent_assign_status		=	$query.agent_assign_status;
+		 
+		 $http.get(baseUrl+"apis/helper.php?method=getCRMUsersByDesignation&params=designation_slug:agent")
+		.then(function(response) {
+				
+				$scope.agentData     		=			response.data.data;
+		
+		});
 		
 		$scope.selecteUserDetail				=	'';
 		
 		if($query.agent_assign_status=='1'){
-		
-			$scope.selectedUser				=	 {'id':$query.agent_id,'firstname':$query.agent_firstname,'lastname':$query.agent_lastname,'email':$query.agent_email,'contactNumber':$query.agent_contactNumber};
-		
-		}else{
 			
-			$scope.selectedUser			=	''; 
+			$scope.selectedUser				=	 {'id':$query.agent_id,'firstname':$query.agent_firstname,'lastname':$query.agent_lastname,'email':$query.agent_email,'contactNumber':$query.agent_contactNumber};
+		 
+		 }else{
+			
+			
+			 $scope.selectedUser			=	''; 
 		 }
 		
 		$('#assignAgent').modal('show');
+	
 	
 	}
 	
@@ -402,11 +337,9 @@ var app = app || {};
 				}
 			}
 		});
-	}
-
 	
-
-
+				
+	}
 	
 	
 });

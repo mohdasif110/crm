@@ -1,7 +1,6 @@
 <?php
 	require_once 'db_connection.php';
 	$post 		=	json_decode($_POST['enquery'],true);
-	
 	switch($post['key']){
 		case 'bmh_enquery':
 		save_enquery($post['postEnqueryData'], 'BMH');
@@ -61,12 +60,15 @@
 		$sqlQuery 			=	mysql_query($sql_selectQuery);
 		$numrow				=	mysql_num_rows($sqlQuery);
 		
+		
 		if($numrow>0){
 			
 			echo json_encode(array('action'=>'error','message'=>'phone number already exist.'));
 			die();
 		}
-		
+	
+	
+	
 		$insertLead 		=	"insert into crm_enquiry_capture set query_request_id='".$numberdigit."' ,enquiry_from='".$enquiry_from."', leadvalujson='".$jsonPost."',  created_on='".date('Y-m-d H:i:s')."' ,created_time='".time()."' ".$addingQuery;
 	
 		}else{
@@ -98,8 +100,9 @@
 								'user_name'=>'name',
 								'phone_number'=>'phone',
 								'email'=>'email',
-								'email'=>'user_email',
+								'user_email'=>'email',
 								'user_contact'=>'phone',
+								'project_name'=>'project_name',
 								'phone'=>'phone',
 								'tell_us_are_you_interested_'=>'tell_us_are_you_interested',
 								'want_to_schedule_a_free_site_visit_'=>"want_to_schedule_a_free_site_visit",

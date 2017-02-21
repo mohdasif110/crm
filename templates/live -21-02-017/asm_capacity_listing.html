@@ -1,0 +1,79 @@
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="page-header">
+            <h3 class="fts-17"> 
+				<i class="fa fa-envelope tooltip-button demo-icon icon-edit" title=".icon-edit"></i>Capacity Listing
+				<span class="badge">{{current_month}}/{{current_year}}</span>
+				
+				<div class="pull-right">
+					<button 
+					class="btn btn-xs btn-primary"
+					is:enable
+					>Add New Capacity for {{current_month}}, {{current_year}}
+					</button>
+				</div>				
+			</h3>
+        </div>
+    </div>
+</div>
+
+
+<div class="panel panel-default">
+	
+	<!--Panel Heading-->
+	<div class="panel-heading">Capacities List</div>
+	<!--End: Panel Heading-->
+	
+	<!--Table Start-->
+	<table class="table table-striped">
+		<thead>
+			<th>#</th>
+			<th>Employee Name</th>
+			<th class="make_center">Total Capacity</th>
+			<th class="make_center">Remaining Capacity</th>
+			<th>Month</th>
+			<th>Year</th>
+			<th>Projects with capacity</th>
+			<th>Action</th>
+		</thead>
+		<tbody>
+			<tr ng-repeat="item in capacities">
+				<td ng-bind="$index+1"></td>
+				<td>{{item.employee_name}}</td>
+				<td class="make_center">{{item.total_capacity | handleNull}}</td>
+				<td class="make_center">{{item.remaining_capacity | handleNull}}</td>
+				<td>{{item.capacity_month | getMonthName : 'full'}}</td>
+				<td>{{item.capacity_year  | handleNull}}</td>
+				<td>{{item.projects[0] | handleNull}}
+					<i class="fa fa-caret-down" 
+					   style="cursor: pointer;" 
+					   aria-hidden="true" 
+					   ng-click="showProjects($event)"
+					   ng-if="item.projects.length > 1 "></i>
+					<div class="list-group" style="display: none;">
+						<div class="list-group-item capacity-projects" ng-repeat="project in item.projects">
+							<div><small>{{project}} | <b>{{item.project_capacity[$index]}}</b></small></div>
+						</div>
+					</div>
+				</td>
+				<td>
+					<!--<button class="btn btn-info btn-xs" can-add-capacity data="item">Add Capacity</button>-->
+					<button
+					   is:editable 
+					   data-month="{{item.capacity_month}}"
+					   data-year="{{item.capacity_year}}"
+					   class="btn btn-info btn-xs"
+					   ng-click="editAsmCapacity(item.user_id)"
+					   >Edit Capacity</button>
+					<a ng-href="previous_capacities/{{item.user_id}}/area_sales_manager" class="btn btn-xs btn-primary">View Previous Capacities</a>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<!--End: Table-->
+</div>
+
+
+<script type="text/javascript">
+	
+</script>

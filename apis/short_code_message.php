@@ -1,5 +1,5 @@
 <?php
-	//error_reporting(E_ALL);
+	error_reporting(E_ALL);
 	require_once 'db_connection.php';
 	
 	if(isset($_REQUEST['PhoneNumber']) && $_REQUEST['PhoneNumber']!=''){
@@ -64,12 +64,17 @@
 	//$insertLead 		=	"insert into crm_enquiry_capture set query_request_id='".$numberdigit."', enquiry_from='ACL' , leadvalujson='".$jsonPost."', phone='".$phonenumber."', enquiry='".$message."' , created_time='".time()."'"
 	
 	
-	$insertLead 		=	"insert into crm_enquiry_capture set query_request_id='".$numberdigit."', enquiry_from='ACL' , leadvalujson='".$jsonPost."', phone='".$phonenumber."', enquiry='".$message."' , created_time='".time()."', acl_response='".$json_encode."'";
+	$insertLead 		=	"insert into crm_enquiry_capture set query_request_id='".$numberdigit."', enquiry_from='ACL' , leadvalujson='".$jsonPost."', phone='".$phonenumber."', enquiry='".$message."' , created_on='".date('Y-m-d H:i:s')."' , created_time='".time()."', acl_response='".$json_encode."'";
 	
 	
 	if(mysql_query($insertLead)){
 		
 		echo json_encode(array('action'=>'success','message'=>'Record has been saved succesfully.'));
+		exit;
+	
+	}else{
+		
+		echo json_encode(array('action'=>'error','message'=>'database error.'));
 		exit;
 	}
 	

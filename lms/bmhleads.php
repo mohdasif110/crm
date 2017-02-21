@@ -1,6 +1,4 @@
 <?php
-
-
 $challenge = $_REQUEST['hub_challenge'];
 $verify_token = $_REQUEST['hub_verify_token'];
 
@@ -8,10 +6,11 @@ $verify_token = $_REQUEST['hub_verify_token'];
 		echo $challenge;
 	}
 	
+	
 	$ldata			=	file_get_contents('php://input');
 	$input 			= json_decode($ldata, true);
 	error_log(print_r($input, true));
-	
+
 	$leadgen_id 		 =  $input["entry"][0]["changes"][0]["value"]["leadgen_id"];
 	$form_id 			 =  $input["entry"][0]["changes"][0]["value"]["form_id"];
 	$created_time		 =  $input["entry"][0]["changes"][0]["value"]["created_time"];
@@ -58,10 +57,6 @@ $verify_token = $_REQUEST['hub_verify_token'];
 	
 	
 	function  push_to_crm($postDataval){
-		
-		
-		
-		
 		
 		$ch = curl_init();                   
 		$url = "http://52.77.73.171/CRM/apis/save_enquiry.php"; 
